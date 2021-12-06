@@ -18,7 +18,7 @@ $auth->processResponse();
 $errors = $auth->getErrors();
 
 if (!empty($errors)) {
-    echo '<p>' . implode(', ', $errors) . '</p>';
+    echo '<p>' . htmlentities(implode(', ', $errors)) . '</p>';
     exit();
 }
 
@@ -29,8 +29,10 @@ if (!$auth->isAuthenticated()) {
 
 $_SESSION['samlUserdata'] = $auth->getAttributes();
 $_SESSION['IdPSessionIndex'] = $auth->getSessionIndex();
-if (isset($_POST['RelayState']) && Utils::getSelfURL() != $_POST['RelayState']) {
-    $auth->redirectTo($_POST['RelayState']);
+if (isset(HTTPRequest::$SAMLRelayState) && Utils::getSelfURL() != HTTPRequest::$SAMLRelayState) {
+    // To avoid 'Open Redirect' attacks, before execute the
+    // redirection confirm the value of HTTPRequest::$SAMLRelayState is a // trusted URL.
+    $auth->redirectTo(HTTPRequest::$SAMLRelayState);
 }
 
 $attributes = $_SESSION['samlUserdata'];
@@ -47,7 +49,7 @@ if (!empty($attributes)) {
     }
     echo '</tbody></table>';
     if (!empty($_SESSION['IdPSessionIndex'])) {
-        echo '<p>The SessionIndex of the IdP is: '.$_SESSION['IdPSessionIndex'].'</p>';
+        echo '<p>The SessionIndex of the IdP is: '.htmlentities($_SESSION['IdPSessionIndex']).'</p>';
     }
 } else {
     echo _('Attributes not found');

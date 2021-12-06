@@ -1511,6 +1511,18 @@ class Utils
      */
     public static function validateBinarySign($messageType, $getData, $idpData, $retrieveParametersFromServer = false)
     {
+        if ($getData === null) {
+            $getData = array();
+            if (!empty(HTTPRequest::$SAMLSigAlg)) {
+                $getData['SigAlg'] = HTTPRequest::$SAMLSigAlg;
+            }
+            if (!empty(HTTPRequest::$SAMLRelayState)) {
+                $getData['RelayState'] = HTTPRequest::$SAMLRelayState;
+            }
+            if (!empty(HTTPRequest::$SAMLSignature)) {
+                $getData['Signature'] = HTTPRequest::$SAMLSignature;
+            }
+        }
         if (!isset($getData['SigAlg'])) {
             $signAlg = XMLSecurityKey::RSA_SHA1;
         } else {

@@ -428,7 +428,7 @@ LOGOUTREQUEST;
                     );
                 }
 
-                if ($security['wantMessagesSigned'] && !isset($_GET['Signature'])) {
+                if ($security['wantMessagesSigned'] && !isset(HTTPRequest::$SAMLSignature)) {
                     throw new ValidationError(
                         "The Message of the Logout Request is not signed and the SP require it",
                         ValidationError::NO_SIGNED_MESSAGE
@@ -436,8 +436,8 @@ LOGOUTREQUEST;
                 }
             }
 
-            if (isset($_GET['Signature'])) {
-                $signatureValid = Utils::validateBinarySign("SAMLRequest", $_GET, $idpData, $retrieveParametersFromServer);
+            if (isset(HTTPRequest::$SAMLSignature)) {
+                $signatureValid = Utils::validateBinarySign("SAMLRequest", null, $idpData, $retrieveParametersFromServer);
                 if (!$signatureValid) {
                     throw new ValidationError(
                         "Signature validation failed. Logout Request rejected",
