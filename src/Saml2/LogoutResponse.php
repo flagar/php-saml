@@ -208,7 +208,7 @@ class LogoutResponse
                     }
                 }
 
-                if ($security['wantMessagesSigned'] && !isset(HTTPRequest::$SAMLSignature)) {
+                if ($security['wantMessagesSigned'] && !isset(\HTTPRequest::$SAMLSignature)) {
                     throw new ValidationError(
                         "The Message of the Logout Response is not signed and the SP requires it",
                         ValidationError::NO_SIGNED_MESSAGE
@@ -216,7 +216,7 @@ class LogoutResponse
                 }
             }
 
-            if (isset(HTTPRequest::$SAMLSignature)) {
+            if (isset(\HTTPRequest::$SAMLSignature)) {
                 $signatureValid = Utils::validateBinarySign("SAMLResponse", null, $idpData, $retrieveParametersFromServer);
                 if (!$signatureValid) {
                     throw new ValidationError(

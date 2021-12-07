@@ -1513,14 +1513,14 @@ class Utils
     {
         if ($getData === null) {
             $getData = array();
-            if (!empty(HTTPRequest::$SAMLSigAlg)) {
-                $getData['SigAlg'] = HTTPRequest::$SAMLSigAlg;
+            if (!empty(\HTTPRequest::$SAMLSigAlg)) {
+                $getData['SigAlg'] = \HTTPRequest::$SAMLSigAlg;
             }
-            if (!empty(HTTPRequest::$SAMLRelayState)) {
-                $getData['RelayState'] = HTTPRequest::$SAMLRelayState;
+            if (!empty(\HTTPRequest::$SAMLRelayState)) {
+                $getData['RelayState'] = \HTTPRequest::$SAMLRelayState;
             }
-            if (!empty(HTTPRequest::$SAMLSignature)) {
-                $getData['Signature'] = HTTPRequest::$SAMLSignature;
+            if (!empty(\HTTPRequest::$SAMLSignature)) {
+                $getData['Signature'] = \HTTPRequest::$SAMLSignature;
             }
         }
         if (!isset($getData['SigAlg'])) {

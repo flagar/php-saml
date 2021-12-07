@@ -29,10 +29,10 @@ if (!$auth->isAuthenticated()) {
 
 $_SESSION['samlUserdata'] = $auth->getAttributes();
 $_SESSION['IdPSessionIndex'] = $auth->getSessionIndex();
-if (isset(HTTPRequest::$SAMLRelayState) && Utils::getSelfURL() != HTTPRequest::$SAMLRelayState) {
+if (isset(\HTTPRequest::$SAMLRelayState) && Utils::getSelfURL() != \HTTPRequest::$SAMLRelayState) {
     // To avoid 'Open Redirect' attacks, before execute the
-    // redirection confirm the value of HTTPRequest::$SAMLRelayState is a // trusted URL.
-    $auth->redirectTo(HTTPRequest::$SAMLRelayState);
+    // redirection confirm the value of \HTTPRequest::$SAMLRelayState is a // trusted URL.
+    $auth->redirectTo(\HTTPRequest::$SAMLRelayState);
 }
 
 $attributes = $_SESSION['samlUserdata'];

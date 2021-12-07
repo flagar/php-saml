@@ -229,9 +229,9 @@ class Auth
     {
         $this->_errors = array();
         $this->_lastError = $this->_lastErrorException = null;
-        if (isset(HTTPRequest::$SAMLResponse)) {
+        if (isset(\HTTPRequest::$SAMLResponse)) {
             // AuthnResponse -- HTTP_POST Binding
-            $response = new Response($this->_settings, HTTPRequest::$SAMLResponse);
+            $response = new Response($this->_settings, \HTTPRequest::$SAMLResponse);
             $this->_lastResponse = $response->getXMLDocument();
 
             if ($response->isValid($requestId)) {
@@ -278,8 +278,8 @@ class Auth
     {
         $this->_errors = array();
         $this->_lastError = $this->_lastErrorException = null;
-        if (isset(HTTPRequest::$SAMLResponse)) {
-            $logoutResponse = new LogoutResponse($this->_settings, HTTPRequest::$SAMLResponse);
+        if (isset(\HTTPRequest::$SAMLResponse)) {
+            $logoutResponse = new LogoutResponse($this->_settings, \HTTPRequest::$SAMLResponse);
             $this->_lastResponse = $logoutResponse->getXML();
             if (!$logoutResponse->isValid($requestId, $retrieveParametersFromServer)) {
                 $this->_errors[] = 'invalid_logout_response';
@@ -298,8 +298,8 @@ class Auth
                     }
                 }
             }
-        } else if (isset(HTTPRequest::$SAMLRequest)) {
-            $logoutRequest = new LogoutRequest($this->_settings, HTTPRequest::$SAMLRequest);
+        } else if (isset(\HTTPRequest::$SAMLRequest)) {
+            $logoutRequest = new LogoutRequest($this->_settings, \HTTPRequest::$SAMLRequest);
             $this->_lastRequest = $logoutRequest->getXML();
             if (!$logoutRequest->isValid($retrieveParametersFromServer)) {
                 $this->_errors[] = 'invalid_logout_request';
@@ -322,8 +322,8 @@ class Auth
                 $logoutResponse = $responseBuilder->getResponse();
 
                 $parameters = array('SAMLResponse' => $logoutResponse);
-                if (isset(HTTPRequest::$SAMLRelayState)) {
-                    $parameters['RelayState'] = HTTPRequest::$SAMLRelayState;
+                if (isset(\HTTPRequest::$SAMLRelayState)) {
+                    $parameters['RelayState'] = \HTTPRequest::$SAMLRelayState;
                 }
 
                 $security = $this->_settings->getSecurityData();
@@ -358,8 +358,8 @@ class Auth
     {
         assert(is_string($url));
 
-        if (empty($url) && isset(HTTPRequest::$SAMLRelayState)) {
-            $url = HTTPRequest::$SAMLRelayState;
+        if (empty($url) && isset(\HTTPRequest::$SAMLRelayState)) {
+            $url = \HTTPRequest::$SAMLRelayState;
         }
 
         return Utils::redirect($url, $parameters, $stay);
